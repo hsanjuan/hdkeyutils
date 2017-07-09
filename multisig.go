@@ -10,14 +10,17 @@ import (
 	"github.com/btcsuite/btcd/txscript"
 	"github.com/btcsuite/btcd/wire"
 	keychain "github.com/btcsuite/btcutil/hdkeychain"
+	"github.com/hsanjuan/mhdw/hdwrap"
 	cli "github.com/urfave/cli"
 	addrs "github.com/whyrusleeping/hdkeyutils/addrs"
 	mktx "github.com/whyrusleeping/mktx"
 )
 
 var msigCmd = cli.Command{
-	Name:  "msig",
-	Usage: "manipulate HD multisig wallets",
+	Name:     "msig",
+	Usage:    "manipulate HD multisig wallets",
+	Hidden:   true,
+	HideHelp: true,
 	Subcommands: []cli.Command{
 		msigRedeemScriptCmd,
 		msigAddrCmd,
@@ -213,18 +216,14 @@ var msigSignTxCmd = cli.Command{
 			return fmt.Errorf("must specify an index")
 		}
 
-		priv, err := loadPrivKey(keyfi)
+		k, err := makeKeyFromPrivKey("btc", keyfi, false)
 		if err != nil {
 			return err
 		}
-		sigkey, err := priv.Child(uint32(index))
-		if err != nil {
-			return err
-		}
-		ecpriv, err := sigkey.ECPrivKey()
-		if err != nil {
-			return err
-		}
+
+		btckey := k.(*hdwrap.BtcKey)
+
+		ecpriv, err := btckey.GetChildPrivKeyBtc(index)
 
 		rawtx, err := hex.DecodeString(txdata)
 		if err != nil {
