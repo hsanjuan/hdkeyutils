@@ -92,7 +92,7 @@ The result can be imported as follows:
 * Bitcoin: `bitcoin-cli importprivkey "<result>" true`
 * Zcash: `zcash-cli importprivkey "<result>" true`
 * Decred: `dcrctl --wallet importprivkey "<result>" true`
-* Ethereum (store result in file): `geth import key.eth`
+* Ethereum (store result in file): `geth account import key.eth`
 
 In **Bitcoin** and **Zcash**, the amount received by the address will appear as unspent with `listunspent` and it can be moved out of the address by creating a raw transaction. For example:
 
