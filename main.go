@@ -31,12 +31,11 @@ var formatFlag = cli.StringFlag{
 func main() {
 	app := cli.NewApp()
 	app.Usage = "A command line utility for manipulating HD wallet keys"
-	app.Version = "0.0.1"
+	app.Version = "0.0.2"
 	app.Commands = []cli.Command{
 		seedCmd,
 		privKeyCmd,
 		pubKeyCmd,
-		msigCmd,
 	}
 	if err := app.Run(os.Args); err != nil {
 		fmt.Fprintln(os.Stderr, err)

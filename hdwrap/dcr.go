@@ -4,9 +4,9 @@ import (
 	"fmt"
 
 	"github.com/decred/dcrd/chaincfg"
-	"github.com/decred/dcrd/chaincfg/chainec"
-	"github.com/decred/dcrutil"
-	"github.com/decred/dcrutil/hdkeychain"
+	"github.com/decred/dcrd/dcrec"
+	"github.com/decred/dcrd/dcrutil"
+	"github.com/decred/dcrd/hdkeychain"
 )
 
 type DcrKey struct {
@@ -23,6 +23,7 @@ func (k *DcrKey) SetTestNet(b bool) {
 }
 
 func (k *DcrKey) FromString(data string, priv bool) error {
+	fmt.Println(data)
 	key, err := hdkeychain.NewKeyFromString(string(data))
 	if err != nil {
 		fmt.Println("herE")
@@ -56,11 +57,11 @@ func (k *DcrKey) GetMasterPub() (string, error) {
 		return "", err
 	}
 
-	return pubk.String()
+	return pubk.String(), nil
 }
 
 func (k *DcrKey) GetMasterPriv() (string, error) {
-	return k.key.String()
+	return k.key.String(), nil
 }
 
 func (k *DcrKey) GetChildPrivKey(index int) (string, error) {
@@ -78,7 +79,7 @@ func (k *DcrKey) GetChildPrivKey(index int) (string, error) {
 	if k.testnet {
 		params = &chaincfg.TestNet2Params
 	}
-	wif, err := dcrutil.NewWIF(privk, params, chainec.ECTypeSecp256k1)
+	wif, err := dcrutil.NewWIF(privk, params, dcrec.STEcdsaSecp256k1)
 	if err != nil {
 		return "", err
 	}
