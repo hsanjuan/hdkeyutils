@@ -41,7 +41,7 @@ func (k *DcrKey) FromString(data string, priv bool) error {
 func (k *DcrKey) FromSeed(s Seed) error {
 	params := &chaincfg.MainNetParams
 	if k.testnet {
-		params = &chaincfg.TestNet2Params
+		params = &chaincfg.TestNet3Params
 	}
 	masterk, err := hdkeychain.NewMaster(s.Bytes(), params)
 	if err != nil {
@@ -77,7 +77,7 @@ func (k *DcrKey) GetChildPrivKey(index int) (string, error) {
 
 	params := &chaincfg.MainNetParams
 	if k.testnet {
-		params = &chaincfg.TestNet2Params
+		params = &chaincfg.TestNet3Params
 	}
 	wif, err := dcrutil.NewWIF(privk, params, dcrec.STEcdsaSecp256k1)
 	if err != nil {
@@ -95,7 +95,7 @@ func (k *DcrKey) GetChildPubKey(index int) (string, error) {
 
 	params := &chaincfg.MainNetParams
 	if k.testnet {
-		params = &chaincfg.TestNet2Params
+		params = &chaincfg.TestNet3Params
 	}
 
 	addr, err := childpub.Address(params)
